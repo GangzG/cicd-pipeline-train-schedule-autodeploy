@@ -3,14 +3,14 @@ pipeline {
     environment {
         //be sure to replace "bhavukm" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "gangzdh/train-schedule"
+         env.BRANCH_NAME = scm.branches[0].name
     }
     stages {
         stage('Build') {
             steps {
                 echo 'Running build automation'
                 sh './gradlew build --no-daemon'
-                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
-                echo env.BRANCH_NAME
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'               
             }
         }
         stage('Build Docker Image') {
