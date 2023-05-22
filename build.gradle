@@ -27,7 +27,7 @@ task zip(type: Zip) {
 	destinationDirectory = file("dist")
 	
 	//baseName "trainSchedule"
-	archiveBaseName "trainSchedule"
+	archiveBaseName = "trainSchedule"
 }
 
 //declare task dependencies
