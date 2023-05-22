@@ -3,7 +3,7 @@ pipeline {
     environment {
         //be sure to replace "bhavukm" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "gangzdh/train-schedule"
-         env.BRANCH_NAME = scm.branches[0].name
+         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
     }
     stages {
         stage('Build') {
