@@ -4,8 +4,8 @@ pipeline {
         //be sure to replace "bhavukm" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "gangzdh/train-schedule"
          //BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
-        GIT_BRANCH = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())  
+        //FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
+        BRANCH_NAME = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())  
     }
     stages {
         stage('Build') {
@@ -13,9 +13,9 @@ pipeline {
                 echo 'Running build automation'
                 sh './gradlew build --no-daemon'
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'    
+               
                 echo env.BRANCH_NAME
-                echo env.FULL_PATH_BRANCH
-                echo env.GIT_BRANCH
+                echo branch
             }
         }
         stage('Build Docker Image') {
