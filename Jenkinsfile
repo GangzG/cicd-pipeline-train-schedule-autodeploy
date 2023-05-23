@@ -26,11 +26,11 @@ pipeline {
             }
             steps {
                 script {
-                    try{
+                   try{
                     app = docker.build(DOCKER_IMAGE_NAME)
                     app.inside {
                         sh 'echo Hello, World!'
-                    }
+                          }
                     } catch(Exception e) {
                         echo 'Exception in Build Docker Image stage: ' + e.toString()
                     }
@@ -50,8 +50,7 @@ pipeline {
                         }
                     } catch(Exception e) {
                         echo 'Exception in Push Docker Image stage: ' + e.toString()
-                    }
-                    }
+                    }                    
                 }
             }
         }
@@ -63,15 +62,15 @@ pipeline {
                 CANARY_REPLICAS = 1
             }
             steps {
-                try{
+              try{
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
                     configs: 'train-schedule-kube-canary.yml',
-                    enableConfigSubstitution: true
-                     } catch(Exception e) {
-                        echo 'Exception in CanaryDeploy stage: ' + e.toString()
-                    }
-                )
+                    enableConfigSubstitution: true                    
+                    )
+                 } catch(Exception e) {
+                    echo 'Exception in CanaryDeploy stage: ' + e.toString()
+                }
             }
         }
         stage('DeployToProduction') {
