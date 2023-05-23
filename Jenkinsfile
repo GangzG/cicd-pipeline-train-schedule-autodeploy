@@ -62,15 +62,15 @@ pipeline {
                 CANARY_REPLICAS = 1
             }
             steps {
-              try{
+              //try{
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
                     configs: 'train-schedule-kube-canary.yml',
                     enableConfigSubstitution: true                    
                     )
-                 } catch(Exception e) {
-                    echo 'Exception in CanaryDeploy stage: ' + e.toString()
-                }
+                 //} catch(Exception e) {
+                 // echo 'Exception in CanaryDeploy stage: ' + e.toString()
+                 //}
             }
         }
         stage('DeployToProduction') {
@@ -81,7 +81,7 @@ pipeline {
                 CANARY_REPLICAS = 0
             }
             steps {
-                try{
+                //try{
                 input 'Deploy to Production?'
                 milestone(1)
                 kubernetesDeploy(
@@ -94,9 +94,9 @@ pipeline {
                     configs: 'train-schedule-kube.yml',
                     enableConfigSubstitution: true
                 )
-                     } catch(Exception e) {
-                        echo 'Exception in DeployToProduction stage: ' + e.toString()
-                    }
+                    //} catch(Exception e) {
+                    //    echo 'Exception in DeployToProduction stage: ' + e.toString()
+                    //}
             }
         }
     }
