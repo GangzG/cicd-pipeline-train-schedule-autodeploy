@@ -43,9 +43,14 @@ pipeline {
             }
             steps {
                 script {
+                    try{
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
+                        }
+                    } catch(Exception e) {
+                        echo 'Exception in Push Docker Image stage: ' + e.toString()
+                    }
                     }
                 }
             }
@@ -58,10 +63,14 @@ pipeline {
                 CANARY_REPLICAS = 1
             }
             steps {
+                try{
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
                     configs: 'train-schedule-kube-canary.yml',
                     enableConfigSubstitution: true
+                     } catch(Exception e) {
+                        echo 'Exception in CanaryDeploy stage: ' + e.toString()
+                    }
                 )
             }
         }
@@ -73,6 +82,7 @@ pipeline {
                 CANARY_REPLICAS = 0
             }
             steps {
+                try{
                 input 'Deploy to Production?'
                 milestone(1)
                 kubernetesDeploy(
@@ -85,6 +95,9 @@ pipeline {
                     configs: 'train-schedule-kube.yml',
                     enableConfigSubstitution: true
                 )
+                     } catch(Exception e) {
+                        echo 'Exception in DeployToProduction stage: ' + e.toString()
+                    }
             }
         }
     }
