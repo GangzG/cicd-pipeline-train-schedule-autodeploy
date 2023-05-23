@@ -61,15 +61,17 @@ pipeline {
                 CANARY_REPLICAS = 1
             }
             steps {
-              //try{
+                script{
+              try{
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
                     configs: 'train-schedule-kube-canary.yml',
                     enableConfigSubstitution: true                    
                     )
-                 //} catch(Exception e) {
-                 // echo 'Exception in CanaryDeploy stage: ' + e.toString()
-                 //}
+                 } catch(Exception e) {
+                  echo 'Exception in CanaryDeploy stage: ' + e.toString()
+                 }
+                }
             }
         }
         stage('DeployToProduction') {
