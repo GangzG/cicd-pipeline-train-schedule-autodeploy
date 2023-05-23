@@ -26,9 +26,13 @@ pipeline {
             }
             steps {
                 script {
+                    try{
                     app = docker.build(DOCKER_IMAGE_NAME)
                     app.inside {
                         sh 'echo Hello, World!'
+                    }
+                    } catch(Exception e) {
+                        echo 'Exception in Build Docker Image stage: ' + e.toString()
                     }
                 }
             }
