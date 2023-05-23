@@ -2,12 +2,10 @@ pipeline {
     agent any
     environment {
         //be sure to replace "bhavukm" with your own Docker Hub username
-        DOCKER_IMAGE_NAME = "gangzdh/train-schedule"
-         //BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        //FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
-        //GIT_BRANCH = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
+        DOCKER_IMAGE_NAME = "gangzdh/train-schedule"       
         BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
         branch = "${env.BRANCH_NAME}"
+        registry = "gangzdh/doproject2"
     }
     stages {
         stage('Build') {
@@ -44,7 +42,8 @@ pipeline {
             steps {
                 script {
                     try{
-                    docker.withRegistry('https://registry.hub.docker.com', 'gangzdhlogincred') {
+                    //docker.withRegistry('https://registry.hub.docker.com', 'gangzdhlogincred') {
+                        docker.withRegistry('', 'gangzdhlogincred') {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                         }
