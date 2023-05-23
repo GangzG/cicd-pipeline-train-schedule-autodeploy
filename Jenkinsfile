@@ -44,7 +44,7 @@ pipeline {
                     try{
                     //docker.withRegistry('https://registry.hub.docker.com', 'gangzdhlogincred') {
                         docker.withRegistry('', 'gangzdhlogincred') {
-                        app.push("${env.BUILD_NUMBER}")
+                        //app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                         }
                     } catch(Exception e) {
