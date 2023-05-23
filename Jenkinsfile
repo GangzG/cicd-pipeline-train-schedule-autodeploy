@@ -15,7 +15,7 @@ pipeline {
                 sh './gradlew build --no-daemon'
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'    
                
-                echo 'env branch name: ' + env.BRANCH_NAME
+                echo 'env git branch: ' + env.GIT_BRANCH
                 echo 'branch: ' + branch
             }
         }
