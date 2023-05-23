@@ -69,6 +69,7 @@ pipeline {
                     enableConfigSubstitution: true                    
                     )
                  } catch(Exception e) {
+                  echo 'error in CanaryDeploy stage'
                   echo 'Exception in CanaryDeploy stage: ' + e.toString()
                  }
                 }
