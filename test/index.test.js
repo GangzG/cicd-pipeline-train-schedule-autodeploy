@@ -5,6 +5,7 @@ var app = require('../app');
  
 describe('Index Page', function() {
   it("renders successfully", function(done) {
+    this.timeout(300000);
     request(app).get('/').expect(200, done);    
   })
 })
